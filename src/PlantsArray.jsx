@@ -1,4 +1,4 @@
-  const plantsArray = [
+ export const plantsArray = [
             {
                 category: "Air Purifying Plants",
                 plants: [

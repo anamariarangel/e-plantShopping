@@ -16,8 +16,12 @@ function ProductList({ onHomeClick }) {
 
     // Calcular quantidade total de itens no carrinho
     const calculateTotalQuantity = () => {
-        return CartItems ? CartItems.reduce((total, item) => total + item.quantity, 0) : 0;
-    };
+    console.log("🔢 CartItems in calculator:", CartItems); // DEBUG
+    console.log("🔢 CartItems length:", CartItems?.length); // DEBUG
+    const total = CartItems ? CartItems.reduce((total, item) => total + item.quantity, 0) : 0;
+    console.log("🔢 Calculated total:", total); // DEBUG
+    return total;
+};
 
     const styleObj = {
         backgroundColor: '#4CAF50',
@@ -64,13 +68,25 @@ function ProductList({ onHomeClick }) {
     };
 
     const handleAddToCart = (product) => {
-        dispatch(addItem(product)); // Dispatch da action para adicionar produto ao carrinho
+    // Converter o custo de string "$15" para número 15
+    const numericCost = parseFloat(product.cost.replace('$', ''));
+    
+    console.log("🚀 Adding product:", product.name); // DEBUG
+    console.log("🚀 Numeric cost:", numericCost); // DEBUG
+    
+    dispatch(addItem({
+        name: product.name,
+        image: product.image,
+        cost: numericCost
+    }));
 
-        setAddedToCart((prevState) => ({
-            ...prevState,
-            [product.name]: true,
-        }));
-    };
+    console.log("🚀 After dispatch - CartItems:", CartItems); // DEBUG
+
+    setAddedToCart((prevState) => ({
+        ...prevState,
+        [product.name]: true,
+    }));
+};
 
     return (
         <div>
